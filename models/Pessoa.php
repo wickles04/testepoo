@@ -1,66 +1,80 @@
 <?php
 namespace app\Models;
 
+use DateTime;
 class Pessoa{
 
     private string $nome;
 
-    private string $cpf;
+    private string $cpf; 
 
-    private int $idade;
+    private DateTime $dataNascimento;
 
 
 
-    public function __construct(string $pNome, string $pCpf, int $pIdade){
+    public function __construct(string $pNome, string $pCpf, DateTime $pDataNascimento){
         $this->setNome($pNome)  ;
         $this->setCpf($pCpf)  ;
-        $this->setIdade($pIdade)  ;
+        $this->dataNascimento = $pDataNascimento ;
 
 
     }
 
 
 
-    /**
-    * @return string
-    */
     public function getNome(): string {
     	return $this->nome;
     }
 
-    /**
-    * @param string $nome
-    */
+
     public function setNome(string $nome): void {
     	$this->nome = $nome;
     }
 
-    /**
-    * @return string
-    */
+
     public function getCpf(): string {
     	return $this->cpf;
     }
-    /**
-    * @param string $cpf
-    */
+
     private function setCpf(string $cpf): void {
     	$this->cpf = $cpf;
     }
 
-    /**
-    * @return int
-    */
-    public function getIdade(): int {
-    	return $this->idade;
-    }
 
-    /**
-    * @param int $idade
-    */
-    public function setIdade(int $idade): void {
-    	$this->idade = $idade;
-    }
+
 
     
+    public function getDataNascimento(){
+    	return $this->dataNascimento->format('d/m/Y');
+    }
+
+
+    public function exibirIdade(){
+        date_default_timezone_set('America/Sao_Paulo');
+
+        $dataAtual = new DateTime(date("Y-m-d"));
+        $idade = $this->dataNascimento->diff($dataAtual);
+        return $idade->y;
+    }
+
+    public function exibirMaiorIdade(){
+        $retorno ="";
+        if($this->exibirIdade()>=18){
+            $retorno = "É maior de idade";
+        }
+        else{
+            $retorno = "É menor de idade";
+        }
+        return $retorno;
+    }
+
+
+
+
+    public function exibirDadosPessoa(){
+        $mensagem = "Cliente: " . $this->getNome() . "; " . $this->getDataNascimento() . "; " . $this->getCpf() . "; " . $this->exibiridade() . "; " . $this->exibirMaiorIdade();
+        return $mensagem;
+    }
+
+
 }

@@ -18,7 +18,7 @@ class Produto{
     }
     public function setValor(float $pValor){
         if($pValor <= 0){
-            throw new \Exception();
+            throw new \Exception("Valor inválido - ovalor deve ser maior que zero.");
             
         }
         $this->valor = $pValor;
@@ -28,10 +28,23 @@ class Produto{
         return $this->nome;
     }
     public function getValor(){
-        return $this->valor;
+        return number_format($this->valor,2);
     }
+    public function exibirDadosProduto() : string{
+        $mensagem = "produto: " . $this->getNome() . ", Valor (R$): " . $this->getValor() ;
+        return $mensagem;
+    }
+    public function retornarDesconto(){
+        $desconto = 0;
+        if ($this->valor>= 100 && $this->valor<= 1000){
+            $desconto = 0.5;
+        }elseif($this->valor>1000 ){
+            $desconto = 0.1;
+        }
+
+    }
+    
 
 }
-
 
 
